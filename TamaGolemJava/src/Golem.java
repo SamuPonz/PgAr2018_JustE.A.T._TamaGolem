@@ -6,13 +6,15 @@
 public class Golem {
 
 	private String name;
-	private int health;
+	private final int health = 10; //valore arbitrario
 	private int totalDamage; //se decidessimo di decrementare ogni volta la vita non serve, se teniamo la vita costante lavoriamo con i danni che accumula si.
 	private Stone[] eatedStones;
 	
-	public Golem() {
+	public Golem(int eatableStones) {
 		
 		this.setName(name);
+		
+		eatedStones = new Stone[eatableStones];
 		
 	}
 	

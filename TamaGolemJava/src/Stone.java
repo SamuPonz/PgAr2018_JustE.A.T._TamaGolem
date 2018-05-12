@@ -6,14 +6,13 @@
  *
  */
 
-
 public class Stone {
 	
 	private Element element;
 	
 	Stone(Element element) {
 		
-		this.setElement(element);
+		this.element = element;
 		
 	}
 

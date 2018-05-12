@@ -7,11 +7,11 @@
  * In order to create the balance, an oriented, weighted graph is created.
  *
  */
-public class Balance {
+public class Equilibrium {
 	
 	private int difficultyLevel;
 	
-	public Balance(int difficultyLevel) {
+	public Equilibrium(int difficultyLevel) {
 		
 		this.difficultyLevel = difficultyLevel;
 	}

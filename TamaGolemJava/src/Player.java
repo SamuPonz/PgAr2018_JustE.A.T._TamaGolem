@@ -1,3 +1,5 @@
+import it.unibs.fp.mylib.InputDati;
+
 /**
  * 
  * This class represents a prototype of a player.
@@ -5,28 +7,38 @@
  */
 public class Player {
 	
+	private static final String ELEMENT_REQUEST = "Please, choose the kind of stone you want to feed your golem:";
 	private final int maxNumberOfGolems;
-	private final int stonesPerElement;
+	private final int eatableStones;
 	
 	private String name;
 	private int defeatedGolems = 0;
 	private Golem[] golems;
 	
-	public Player(String name, int maxNumberOfGolems, int stonesPerElement) {
+	public Player(String name, int maxNumberOfGolems, int eatableStones) {
 		this.name = name;
-		this.stonesPerElement = stonesPerElement;
 		this.maxNumberOfGolems = maxNumberOfGolems;
+		this.eatableStones = eatableStones;
 		golems = new Golem[maxNumberOfGolems];
+		for(int i= 0; i < maxNumberOfGolems; i++) {
+			golems[i] = new Golem(eatableStones);
+		}
 	}
 
 	public Golem summon() {
-		if(isDefeated) {
-			
+		
+		//during a game, golems are summoned in a sequential way, they are taken from the array from 0 to the array length - 1,
+		//the variable defeatedGolems represents the pointer of the current golem.
+		if(!isDefeated()) {
+			Golem currentGolem = golems[defeatedGolems];	
+			for(int i = 0; i < eatableStones; i++) {
+				//scegli le pietre fino al numero di pietre che può contenere il golem
+			}
 		}
 		else {
-			System.out.println();
+			System.out.println("Nope");
 		}
-
+ 
 	}
 	
 	public Stone selectStone(Element element) {
@@ -46,8 +58,5 @@ public class Player {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
 
 }

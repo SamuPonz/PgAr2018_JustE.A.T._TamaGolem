@@ -1,4 +1,7 @@
 import it.unibs.fp.mylib.MyMenu;
+
+import java.util.Random;
+
 import it.unibs.fp.mylib.InputDati;
 
 /**
@@ -10,7 +13,7 @@ import it.unibs.fp.mylib.InputDati;
 public class Main {
 
 	public static final String GREETING = "Welcome to the main menu!";
-	public static final String[] CHOISES = {"Start a new Battle", "Options"};
+	public static final String[] CHOICES = {"Start a new Battle", "Options"};
 	public static final String END = "Bye, hope to see you again...";
 	public static final String NAME_REQUEST1 = "Please, enter the former player's name: ";
 	public static final String NAME_REQUEST2 = "Please, enter the latter player's name: ";
@@ -22,10 +25,9 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		MyMenu mainMenu = new MyMenu(GREETING, CHOISES);
-		
-		int choice  = 1;
-		while(choice != 0) {
+		MyMenu mainMenu = new MyMenu(GREETING, CHOICES);
+		int choice;
+		do {
 			choice = mainMenu.choose();
 			switch(choice) {
 				case 0:
@@ -37,16 +39,27 @@ public class Main {
 					String name1 = InputDati.leggiStringaNonVuota(NAME_REQUEST1);
 					String name2 = InputDati.leggiStringaNonVuota(NAME_REQUEST2);
 					Match match = new Match(name1, name2, difficultyLevel);
-					for(Player player : match.getPlayers()) {
-						player.summon();
+					
+					//semplicemente vdeo gli elementi in un istanza di match per controllare che siano sempre diversi
+					for(Element element : match.getElements()) {
+						System.out.println(element.toString());
 					}
 					
-				break;
-				case 2:
 					
+					
+				break;
+				case 2:			
 					
 				break;
 			}
 		}
+		while(choice != 0);
+	}
+	
+	public static int randomNumbersWithoutReps() {
+		
+		
+		
+		
 	}
 }

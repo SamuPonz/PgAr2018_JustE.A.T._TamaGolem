@@ -11,28 +11,51 @@ import it.unibs.fp.mylib.InputDati;
  */
 public class Match {
 	
-	private Balance balance;
+	private Element[] elements;
+	
+	private Equilibrium equilibrium;
 	private Player[] players = new Player[2];
 	private int difficultyLevel;
 	
-	private int eatableStones = (int)Math.ceil((difficultyLevel + 1)/3 + 1);
-	private int maxNumberOfgolems = (int)Math.ceil(((difficultyLevel-1)*(difficultyLevel-2))/2*eatableStones);
-	private int stonesPerElement = (int)Math.ceil((2*maxNumberOfgolems*eatableStones)/difficultyLevel);
+	private int eatableStones; 
+	private int maxNumberOfgolems; 
+	private int stonesPerElement;
 	
 	Match(String name1, String name2, int difficultyLevel) {
 		
 		this.difficultyLevel = difficultyLevel;
 		
-		balance = new Balance(difficultyLevel);
+		eatableStones = (int)Math.ceil((difficultyLevel + 1)/3 + 1);
+		maxNumberOfgolems = (int)Math.ceil(((difficultyLevel-1)*(difficultyLevel-2))/2*eatableStones);
+		stonesPerElement = (int)Math.ceil((2*maxNumberOfgolems*eatableStones)/difficultyLevel);
 		
-		Player player1 = new Player(name1, maxNumberOfgolems, stonesPerElement);
-		Player player2 = new Player(name2, maxNumberOfgolems, stonesPerElement);
+		elements = new Element[difficultyLevel];
+		equilibrium = new Equilibrium(difficultyLevel);
+		
+		Player player1 = new Player(name1, maxNumberOfgolems, eatableStones);
+		Player player2 = new Player(name2, maxNumberOfgolems, eatableStones);
 		
 		players[0] = player1;
 		players[1] = player2;
 		
+		elementsInit();
 		coinToss();
 		
+	}
+	
+	public void elementsInit() {
+		Set<Integer> excluded = new HashSet<Integer>();
+		Random value = new Random();
+		int elementValue;
+		for(int i = 0; i < difficultyLevel; i++) {
+			elementValue = value.nextInt(Element.numberOfElements());
+			if(excluded.contains(elementValue))
+				i--;
+			else {
+				elements[i] = Element.fromValueToElement(elementValue);
+				excluded.add(elementValue);
+			}
+		}
 	}
 	
 	public void coinToss() {
@@ -51,7 +74,7 @@ public class Match {
 				System.out.println("\nHEAD! " + players[0].getName() + " will be the first to summon a Golem.");
 			}
 			else {
-				System.out.println("\nTAIL! " + players[1].getName() + "will be the first to summon a Golem.");
+				System.out.println("\nTAIL! " + players[1].getName() + " will be the first to summon a Golem.");
 				Player temp = players[0];
 				players[0] = players[1];
 				players[1] = temp;
@@ -69,10 +92,13 @@ public class Match {
 	public Player[] getPlayers() {
 		return players;
 	}
-
+	
+	public Element[] getElements() {
+		return elements;
+	}
 
 	public Player winner() {
-		
+		  
 		return
 	}
 
