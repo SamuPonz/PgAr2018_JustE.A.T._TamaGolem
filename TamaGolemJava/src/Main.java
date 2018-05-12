@@ -37,29 +37,24 @@ public class Main {
 					System.out.println(DIFFICULTY_LEVEL_INFO);
 					int difficultyLevel = InputDati.leggiIntero(DIFFICULTY_LEVEL_REQUEST, MIN_DIFFICULTY_LEVEL, MAX_DIFFICULTY_LEVEL);
 					String name1 = InputDati.leggiStringaNonVuota(NAME_REQUEST1);
-					String name2 = InputDati.leggiStringaNonVuota(NAME_REQUEST2);
+					String name2;
+					do {
+						name2 = InputDati.leggiStringaNonVuota(NAME_REQUEST2);
+					}while(name1.equals(name2));
 					Match match = new Match(name1, name2, difficultyLevel);
 					
 					//semplicemente vdeo gli elementi in un istanza di match per controllare che siano sempre diversi
 					for(Element element : match.getElements()) {
 						System.out.println(element.toString());
 					}
-					
-					
-					
+					match.commonStockPrint();
 				break;
-				case 2:			
+				case 2:
+					  
 					
 				break;
 			}
 		}
 		while(choice != 0);
-	}
-	
-	public static int randomNumbersWithoutReps() {
-		
-		
-		
-		
 	}
 }

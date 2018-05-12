@@ -15,30 +15,33 @@ public class Match {
 	
 	private Equilibrium equilibrium;
 	private Player[] players = new Player[2];
+	private Stone[][] commonStock;
 	private int difficultyLevel;
 	
 	private int eatableStones; 
-	private int maxNumberOfgolems; 
+	private int maxNumberOfGolems; 
 	private int stonesPerElement;
 	
 	Match(String name1, String name2, int difficultyLevel) {
 		
 		this.difficultyLevel = difficultyLevel;
 		
-		eatableStones = (int)Math.ceil((difficultyLevel + 1)/3 + 1);
-		maxNumberOfgolems = (int)Math.ceil(((difficultyLevel-1)*(difficultyLevel-2))/2*eatableStones);
-		stonesPerElement = (int)Math.ceil((2*maxNumberOfgolems*eatableStones)/difficultyLevel);
+		eatableStones = (int)Math.ceil((double)(difficultyLevel + 1)/3 + 1);
+		maxNumberOfGolems = (int)Math.ceil((double)((difficultyLevel-1)*(difficultyLevel-2))/(2*eatableStones));
+		stonesPerElement = (int)Math.ceil((double)(2*maxNumberOfGolems*eatableStones)/difficultyLevel);
 		
+		commonStock = new Stone[difficultyLevel][stonesPerElement]; 
 		elements = new Element[difficultyLevel];
 		equilibrium = new Equilibrium(difficultyLevel);
 		
-		Player player1 = new Player(name1, maxNumberOfgolems, eatableStones);
-		Player player2 = new Player(name2, maxNumberOfgolems, eatableStones);
+		Player player1 = new Player(name1, maxNumberOfGolems, eatableStones);
+		Player player2 = new Player(name2, maxNumberOfGolems, eatableStones);
 		
 		players[0] = player1;
 		players[1] = player2;
 		
 		elementsInit();
+		commonStockInit(); 
 		coinToss();
 		
 	}
@@ -55,6 +58,23 @@ public class Match {
 				elements[i] = Element.fromValueToElement(elementValue);
 				excluded.add(elementValue);
 			}
+		}
+	}
+	
+	public void commonStockInit() {
+		for(int i = 0; i < difficultyLevel; i++) {
+			for(int j = 0; j < stonesPerElement; j++) {
+				commonStock[i][j] = new Stone(elements[i]);
+			}
+		}
+	}
+	
+	public void commonStockPrint() {
+		for(int i = 0; i < difficultyLevel; i++) {
+			for(int j = 0; j < stonesPerElement; j++) {
+				System.out.println(commonStock[i][j].name);
+			}
+			
 		}
 	}
 	

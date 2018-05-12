@@ -26,7 +26,6 @@ public class Player {
 	}
 
 	public Golem summon() {
-		
 		//during a game, golems are summoned in a sequential way, they are taken from the array from 0 to the array length - 1,
 		//the variable defeatedGolems represents the pointer of the current golem.
 		if(!isDefeated()) {

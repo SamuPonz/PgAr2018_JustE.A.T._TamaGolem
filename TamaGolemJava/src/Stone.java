@@ -9,10 +9,12 @@
 public class Stone {
 	
 	private Element element;
+	String name;
 	
 	Stone(Element element) {
 		
 		this.element = element;
+		name = element.toString() + "'s stone";
 		
 	}
 
