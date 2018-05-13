@@ -9,7 +9,7 @@
 public class Stone {
 	
 	private Element element;
-	String name;
+	private String name;
 	
 	Stone(Element element) {
 		
@@ -24,6 +24,10 @@ public class Stone {
 
 	public void setElement(Element element) {
 		this.element = element;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 	

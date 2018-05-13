@@ -1,4 +1,9 @@
-
+/**
+ * 
+ * 
+ * @author
+ *
+ */
 public enum Element {
 	
 	FIRE(0),
@@ -29,14 +34,12 @@ public enum Element {
 	
 	public static int numberOfElements() {
 		int i = 0;
-		for(Element element : Element.values()) {
+		for(Element element : Element.values())
 			i++;
-		}
 		return i;
 	}
 	
-	//problema, devo sceglierli in ogni partita in modo casuale, non posso usare il metodo sottostante
-	
+	//Metodo per stampare tutti gli elementi esistenti
 	public static void printElements() {
 		System.out.println();
 		int i = 0;
@@ -46,5 +49,8 @@ public enum Element {
 		}
 	}
 	
+	public static void assignPowers() {
+		
+	}
 	
 }

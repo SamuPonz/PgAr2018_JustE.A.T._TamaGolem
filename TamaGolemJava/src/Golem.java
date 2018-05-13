@@ -1,26 +1,29 @@
 /**
  * 
- * This class represents the prototype of an object of type Golem. These odd creatures are able to control Stones.
+ * This class represents the prototype of a type Golem object. These odd creatures are able to eat and spit out Stones.
  *
  */
 public class Golem {
 
+	private static final int INITIAL_HEALTH = 10;  //valore arbitrario
+	
 	private String name;
-	private final int health = 10; //valore arbitrario
-	private int totalDamage; //se decidessimo di decrementare ogni volta la vita non serve, se teniamo la vita costante lavoriamo con i danni che accumula si.
-	private Stone[] eatedStones;
+	private int health = INITIAL_HEALTH;
+	private Stone[] eatenStones;
 	
 	public Golem(int eatableStones) {
-		
 		this.setName(name);
-		
-		eatedStones = new Stone[eatableStones];
-		
+		eatenStones = new Stone[eatableStones];
 	}
 	
-	public Stone shoot() {
+	public int shoot(int index, Golem otherGolem) { //Aggiungere qui la perdita di vita!!!!
+		Stone attackingStone = eatenStones[index];
+		Stone defendingStone = otherGolem.eatenStones[index];
 		
-		return
+		int healthReduction = damageDealt(attackingStone, defendingStone);
+		otherGolem.health -= healthReduction;
+		
+		return healthReduction;
 	}
 
 	public String getName() {
@@ -31,5 +34,29 @@ public class Golem {
 		this.name = name;
 	}
 	
+	public int getHealth() {
+		return health;
+	}
+	
+	public Stone[] getEatenStones() {
+		return eatenStones;
+	}
+	
+	public boolean isDead() {
+		if(health <= 0)
+			return true;
+		else return false;
+	}
+	
+	public void feed(Element[] kindOfStones) {
+		for(int i = 0; i < eatenStones.length; i++)
+			eatenStones[i] = new Stone(kindOfStones[i]);	
+	}
+	
+	public int damageDealt(Stone attackingStone, Stone defendingStone) {
+		int damage;
+		damage = 3; //Associare alla classe Equilibrium per capire l'entità del danno
+		return damage;
+	}
 	
 }
