@@ -5,7 +5,6 @@
  * @author Just E.A.T.
  *
  */
-
 public class Golem {
 
 	public static final int MIN_INITIAL_HEALTH = 10; //valore arbitrario
@@ -92,7 +91,7 @@ public class Golem {
 	 * 
 	 * Metodo che nutre il golem con delle pietre di un determinato tipo di elemento
 	 * 
-	 * @param Tipo di pietre con cui si vuole nutrire il golem: elemento che definisce il tipo di pietra
+	 * @param kindOfStones Tipo di pietre con cui si vuole nutrire il golem: elemento che definisce il tipo di pietra
 	 */
 	
 	public void feed(Element[] kindOfStones) {
@@ -125,7 +124,7 @@ public class Golem {
 	 * 
 	 * Metodo che controlla se due golem hanno le stesse pietre
 	 * 
-	 * @param Secondo golem con cui viene confrontato il primo golem
+	 * @param other Secondo golem con cui viene confrontato il primo golem
 	 * 
 	 * @return Ritrona true se i golem hanno le stesse pietre nello stesso ordine, false se i golem hanno pietre diverse
 	 * 

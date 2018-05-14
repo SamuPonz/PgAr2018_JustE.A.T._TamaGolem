@@ -2,7 +2,7 @@ import it.unibs.fp.mylib.NumeriCasuali;
 
 /**
  * Questa classe genera una tabella che regola l'equilibrio degli elementi
- * @author flavio
+ * @author Just E.A.T.
  */
 public class Equilibrium {
     private int golemHealth;
