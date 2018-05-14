@@ -5,6 +5,7 @@ import it.unibs.fp.mylib.InputDati;
 import javax.sound.sampled.*;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
@@ -26,9 +27,9 @@ public class Main {
 	private static final String NAME_REQUEST1 = "Please, enter the former player's name: ";
 	private static final String NAME_REQUEST2 = "Please, enter the latter player's name: ";
 	private static final String DUPLICATE_NAME_ERROR = "This name has alredy been taken: insert a different one! ";
-	private static final String INTRO1 = "\n\t\t\u00A9 2018\t\tTamaGolem";
-	private static final String INTRO2 = "\t\t\u00A9 1998-2018\tJUST E.A.T.";
-	private static final String INTRO3 = "\nGengar & Nidorino fighting in the grass";
+	private static final String INTRO1 = "\n\t\u00A9 2018\t\tTamaGolem";
+	private static final String INTRO2 = "\t\u00A9 1998-2018\tJUST E.A.T.";
+	private static final String INTRO3 = "\n**Gengar & Nidorino fighting on the grass**";
 
 	private static final String OPTIONS_MENU_TITLE = "Please, choose the option you want to modify";
 	private static final String[] DIFFICULTY_LEVELS = { "- EASY MODE: 3, 4 or 5 elements", "- NORMAL MODE: 6, 7 or 8 elements", "- HARD MODE: 9 or 10 elements" };
@@ -201,19 +202,20 @@ public class Main {
 		TimeUnit.SECONDS.sleep(5);
 		System.out.println(INTRO3);
 		TimeUnit.SECONDS.sleep(12);
-		summonRequest();
+        golemPrinter();
+		enterRequest();
 		audioClip.close();
 		audioStream.close();
-		System.out.println("\n\n");
+		System.out.flush();
 	}
 
 	/**
 	 * 
-	 * Metodo che stampa a video la richiesta di una nuova evocazione 
+	 * Metodo che richiede le pressione del tasto enter per l'avvio del gioco 
 	 * 
 	 */
 	
-	private static void  summonRequest() {
+	private static void  enterRequest() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		try {
 			System.out.print("\n\t\t\tPRESS START");
@@ -223,4 +225,20 @@ public class Main {
 			System.out.println("Errore");
 		}
 	}
+	
+	/**
+	 * 
+	 * Metodo che stampa golem
+	 * 
+	 */
+	
+	private static void golemPrinter() throws IOException {
+		BufferedReader in = new BufferedReader(new FileReader("tamagolem.txt"));
+		String line;
+		while((line = in.readLine()) != null)
+		{
+			System.out.println(line);
+		}
+		in.close();
+	}   
 }
