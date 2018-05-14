@@ -12,16 +12,15 @@ import it.unibs.fp.mylib.MyMenu;
  */
 public class Match {
 	
-
-	public static final String AVAILABLE_ELEMENTS = "These are the stone species you are going to deal with: ";
-	public static final String COMMON_STOCK_MESSAGE = "These are the stones available in the common stock: ";
+	private static final String COMMON_STOCK_MESSAGE = "These are the stones available in the common stock:\n";
 	private static final String SUMMON_MENU_TITLE = "\nWhich stone do you want to feed your golem with?\n";
-	public static final String CORNICE = "-------------------------------------------";
+	private static final String FRAME = "-------------------------------------------";
 	
-	public static final String NO_MORE_STONES_LEFT = "There are no more stones of this species! Please choose a different one ";
-	public static final String NOT_ENOUGH_STONES_TO_SUMMON = "There aren't enough stones left to summon other two golems!";
+	private static final String NO_MORE_STONES_LEFT = "There are no more stones of this species! Please choose a different one ";
+	private static final String NOT_ENOUGH_STONES_TO_SUMMON = "There aren't enough stones left to summon other two golems!";
+	private static final String NULL_INTERACTION_ERROR = "The golems have been throwing the same stones in the same order for hours...let's stop them :(";
 	
-	public static final String END_TURN_MESSAGE = "END TURN %d";
+	private static final String END_TURN_MESSAGE = "END TURN %d";
 	
 	private Element[] elements;
 	
@@ -38,7 +37,7 @@ public class Match {
 		
 		this.difficultyLevel = difficultyLevel;
 		
-		eatableStones = (int)Math.ceil((double)(difficultyLevel + 1)/3 + 1);
+		eatableStones = (int)Math.ceil((double)(difficultyLevel + 1)/3) + 1;
 		maxNumberOfGolems = (int)Math.ceil((double)((difficultyLevel-1)*(difficultyLevel-2))/(2*eatableStones));
 		stonesPerElement = (int)Math.ceil((double)(2*maxNumberOfGolems*eatableStones)/difficultyLevel);
 		 
@@ -83,12 +82,28 @@ public class Match {
 	public void commonStockPrint() {
 		System.out.println();
 		System.out.println(COMMON_STOCK_MESSAGE);
-		for(int i = 0; i < difficultyLevel; i++) {
-			if(commonStock.get(i).isEmpty())
-				System.out.print("Available " + elements[i] + "' stone : 0");
-			else System.out.print("Available " + elements[i] + "'s stone: " + commonStock.get(i).size());
-			System.out.println();
+		for(ArrayList<Stone> stones : commonStock) {
+			if(!stones.isEmpty())
+				System.out.println(printStoneSymbol(stones.size(), stones.get(0)));
 		}
+		System.out.println();
+	}
+	
+  	private String printStoneSymbol(int i, Stone stone) {
+    	StringBuffer stock = new StringBuffer();
+    	stock.append(" @ " + stone.getElement().toString().toLowerCase() + "\t");
+    	
+	    if(stone.getElement().toString().length() <= 4)
+	     	stock.append("\t");
+	     	
+	    stock.append("[ ");
+	    
+	    for(int j = 0; j < i; j++)
+	     	stock.append("0 ");
+	     	
+	    stock.append("]\n");
+	    
+	    return stock.toString();
 	}
 	
 	public void coinToss() {
@@ -171,46 +186,80 @@ public class Match {
 	
 	public void summonSequence(int playerNumber, int turnNumber) {
 		System.out.println();
-		System.out.println(CORNICE);
+		System.out.println(FRAME);
 		System.out.println(getPlayer(playerNumber).getName() + "'s turn " + turnNumber + ": feed your Golem with " + getEatableStones() + " stones");
-		System.out.println(CORNICE);
+		System.out.println(FRAME);
 		summon(playerNumber);
 	}
 	
 	public void clash() {
 		int turn = 1;
+		int newEvocation = 2;
 		
-		while(!players[0].isDefeated() && !players[1].isDefeated() &&  turn <= maxNumberOfGolems && !notEnoughStonesLeft()) {
-			commonStockPrint();
-			summonSequence(0, turn);
-			commonStockPrint();
-			summonSequence(1, turn);
+		summonRequest();
+		
+		commonStockPrint();
+		summonSequence(0, turn);
+		commonStockPrint();
+		summonSequence(1, turn);
+		
+		while(!players[0].isDefeated() && !players[1].isDefeated() &&  turn <= (maxNumberOfGolems * 2 - 1) && !notEnoughStonesLeft()) {
+			if(newEvocation == 0) {
+				commonStockPrint();
+				summonSequence(0, turn);
+			}
+			if(newEvocation == 1) {
+				commonStockPrint();
+				summonSequence(1, turn);
+			}
 			
 			Golem golem1 = players[0].getGolems().get(players[0].getDefeatedGolems());
 			Golem golem2 = players[1].getGolems().get(players[1].getDefeatedGolems());
 			
-			int i = 0;
+			int i = 0, nullInteractionCounter = 0;
 			while(!golem1.isDead() && !golem2.isDead()) { 
 				if(i == eatableStones)
 					i = 0;
 				
 				int attackingElementIndex = findElementIndex(golem1.getEatenStones()[i].getElement());
 				int defendingElementIndex = findElementIndex(golem2.getEatenStones()[i].getElement());
+				int golem1Damage = golem1.shoot(attackingElementIndex, defendingElementIndex, golem2);
+				int golem2Damage = golem2.shoot(defendingElementIndex, attackingElementIndex, golem1);
 				
 				System.out.println();
-				System.out.println(players[0].getName() + "'s golem deals a " + golem1.shoot(attackingElementIndex, defendingElementIndex, golem2) + " lifepoints damage (" + golem1.getEatenStones()[i].getName() + " --> " + golem2.getEatenStones()[i].getName() + ")"); //Il metodo shoot restituisce un intero,
-				System.out.println(players[1].getName() + "'s golem deals a " + golem2.shoot(defendingElementIndex, attackingElementIndex, golem1) + " lifepoints damage (" + golem2.getEatenStones()[i].getName() + " --> " + golem1.getEatenStones()[i].getName() + ")"); //ma esegue già la sottrazione dei lifepoints
+				System.out.println(players[0].getName() + "'s golem deals a " + golem1Damage + " lifepoints damage (" + golem1.getEatenStones()[i].getName() + " --> " + golem2.getEatenStones()[i].getName() + ")"); //Il metodo shoot restituisce un intero,
+				System.out.println(players[1].getName() + "'s golem deals a " + golem2Damage + " lifepoints damage (" + golem2.getEatenStones()[i].getName() + " --> " + golem1.getEatenStones()[i].getName() + ")"); //ma esegue già la sottrazione dei lifepoints
 				System.out.println(players[0].getName() + "'s golem's remaining health: " + golem1.getHealth()); //Non va mostrato all'utente, serve solo a noi per controllo
 				System.out.println(players[1].getName() + "'s golem's remaining health: " + golem2.getHealth());
 				i++;
+				
+				if(golem1Damage == golem2Damage)
+					nullInteractionCounter++;
+				if(nullInteractionCounter == eatableStones) {
+					System.out.println(NULL_INTERACTION_ERROR);
+					players[0].increaseDefeatedGolems();
+					players[1].increaseDefeatedGolems();
+					summonRequest();
+					commonStockPrint();
+					summonSequence(0, turn);
+					commonStockPrint();
+					summonSequence(1, turn);
+					System.out.println(players[0].getName() + " has lost a golem!");
+					System.out.println(players[1].getName() + " has lost a golem!");
+					break;
+				}
 			}
 			if(golem1.isDead()) {
 				players[0].increaseDefeatedGolems();
 				System.out.println(players[0].getName() + " has lost a golem!");
+				newEvocation = 0;
+				summonRequest();
 			}
 			if(golem2.isDead()) {
 				players[1].increaseDefeatedGolems();
 				System.out.println(players[1].getName() + " has lost a golem!");
+				newEvocation = 1;
+				summonRequest();
 			}
 			
 			System.out.println(players[0].getName() + " has " + (maxNumberOfGolems - players[0].getDefeatedGolems()) + " golem left");
@@ -226,13 +275,6 @@ public class Match {
 			turn++;
 		}
 				
-	}
-	
-	public void printAvailableElements() {
-		System.out.println(AVAILABLE_ELEMENTS);
-		for(Element element: elements)
-			System.out.print(element + "  ");
-		System.out.println();
 	}
 	
 	public String proclaimWinner() {
@@ -267,5 +309,16 @@ public class Match {
 			if(elements[i] == element)
 				return i;
 		return -1;
+	}
+	
+	private void summonRequest() {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		try {
+			System.out.println("Press enter to summon a new golem...");
+			in.readLine();
+		}
+		catch (IOException ex) {
+			System.out.println("Errore");
+		}
 	}
 }

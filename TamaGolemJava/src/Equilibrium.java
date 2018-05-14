@@ -53,12 +53,15 @@ public class Equilibrium {
                     }
                 }
             }
-            if(Math.abs(sum) > golemHealth){ //nel caso la somma dei danni entranti e di quelli uscenti sia maggiore del valore massimo di danno la riga della tabella viene riscritta (per rispettare i principi dell'equilibrio)
-                i--;
+            if(Math.abs(sum) > golemHealth){ //nel caso la somma dei danni entranti e di quelli uscenti sia maggiore del valore massimo di danno la tabella viene riscritta (per rispettare i principi dell'equilibrio)
+                i = 0;						 //COMMENTO EFFICIENZA
             }
             else if (i != elementsNumber - 1) {//evita la scrittura di un valore nell'ultima casella (interazione dell'ultino elemento con se stesso)
-                elementsTable[i][elementsNumber-1] = -sum;
-                elementsTable[elementsNumber-1][i] = sum;
+                if (sum != 0) { //Evita che l'interazione tra ultimo e penultimo elemento sia nulla
+                	elementsTable[i][elementsNumber-1] = -sum;
+                	elementsTable[elementsNumber-1][i] = sum;
+                }
+                else i = 0;
             }
         }
     }

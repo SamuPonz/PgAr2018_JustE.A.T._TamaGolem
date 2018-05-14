@@ -5,7 +5,9 @@
  */
 public class Golem {
 
-	public static final int INITIAL_HEALTH = 10;  //valore arbitrario
+	public static final int MIN_INITIAL_HEALTH = 10; //valore arbitrario
+	public static final int MAX_INITIAL_HEALTH = 25; //valore arbitrario
+	public static int INITIAL_HEALTH = 15;
 	
 	private String name;
 	private int health = INITIAL_HEALTH;
@@ -65,4 +67,10 @@ public class Golem {
 		else return damage;
 	}
 	
+	public boolean hasTheSameStones(Golem other) {
+		for(int i = 0; i < eatenStones.length; i++)
+			if(eatenStones[i].getName().equals(other.getEatenStones()[i].getName()))
+					return true;
+		return false;
+	}
 }
