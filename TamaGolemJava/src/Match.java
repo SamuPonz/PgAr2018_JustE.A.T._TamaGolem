@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-import it.unibs.fp.mylib.InputDati;
 import it.unibs.fp.mylib.MyMenu;
 /**
  * 
@@ -42,7 +41,7 @@ public class Match {
 		stonesPerElement = (int)Math.ceil((double)(2*maxNumberOfGolems*eatableStones)/difficultyLevel);
 		 
 		elements = new Element[difficultyLevel];
-		equilibrium = new Equilibrium(difficultyLevel, Golem.INITIAL_HEALTH);
+		equilibrium = new Equilibrium(difficultyLevel, Golem.initialHealth);
 		
 		Player player1 = new Player(name1, maxNumberOfGolems);
 		Player player2 = new Player(name2, maxNumberOfGolems);

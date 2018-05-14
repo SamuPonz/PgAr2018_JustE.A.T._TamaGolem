@@ -7,10 +7,10 @@ public class Golem {
 
 	public static final int MIN_INITIAL_HEALTH = 10; //valore arbitrario
 	public static final int MAX_INITIAL_HEALTH = 25; //valore arbitrario
-	public static int INITIAL_HEALTH = 15;
+	public static int initialHealth = 15;
 	
 	private String name;
-	private int health = INITIAL_HEALTH;
+	private int health = initialHealth;
 	private Stone[] eatenStones;
 	private Equilibrium equilibrium;
 	
