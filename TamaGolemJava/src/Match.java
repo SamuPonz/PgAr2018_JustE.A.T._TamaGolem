@@ -25,11 +25,11 @@ public class Match {
 	
 	private Element[] elements;
 	
-	private Equilibrium equilibrium;
 	private Player[] players = new Player[2];
 	private ArrayList<ArrayList<Stone>> commonStock = new ArrayList<ArrayList<Stone>>();
 	private int difficultyLevel;
 	
+	private Equilibrium equilibrium;
 	private int eatableStones; 
 	private int maxNumberOfGolems; 
 	private int stonesPerElement;
@@ -43,7 +43,7 @@ public class Match {
 		stonesPerElement = (int)Math.ceil((double)(2*maxNumberOfGolems*eatableStones)/difficultyLevel);
 		 
 		elements = new Element[difficultyLevel];
-		equilibrium = new Equilibrium(difficultyLevel);
+		equilibrium = new Equilibrium(difficultyLevel, Golem.INITIAL_HEALTH);
 		
 		Player player1 = new Player(name1, maxNumberOfGolems);
 		Player player2 = new Player(name2, maxNumberOfGolems);
@@ -165,7 +165,7 @@ public class Match {
 			System.out.print(eatenStones[i] + "  ");
 		System.out.println();
 		
-		players[playerNumber].getGolems().add(new Golem(eatableStones));
+		players[playerNumber].getGolems().add(new Golem(eatableStones, equilibrium));
 		players[playerNumber].getGolems().get(players[playerNumber].getDefeatedGolems()).feed(eatenStones);
 	}
 	
@@ -193,17 +193,25 @@ public class Match {
 			while(!golem1.isDead() && !golem2.isDead()) { 
 				if(i == eatableStones)
 					i = 0;
+				
+				int attackingElementIndex = findElementIndex(golem1.getEatenStones()[i].getElement());
+				int defendingElementIndex = findElementIndex(golem2.getEatenStones()[i].getElement());
+				
 				System.out.println();
-				System.out.println(players[0].getName() + "'s golem deals a " + golem1.shoot(i, golem2) + " lifepoints damage (" + golem1.getEatenStones()[i].getName() + " --> " + golem2.getEatenStones()[i].getName() + ")"); //Il metodo shoot restituisce un intero,
-				System.out.println(players[1].getName() + "'s golem deals a " + golem2.shoot(i, golem1) + " lifepoints damage (" + golem2.getEatenStones()[i].getName() + " --> " + golem1.getEatenStones()[i].getName() + ")"); //ma esegue già la sottrazione dei lifepoints
+				System.out.println(players[0].getName() + "'s golem deals a " + golem1.shoot(attackingElementIndex, defendingElementIndex, golem2) + " lifepoints damage (" + golem1.getEatenStones()[i].getName() + " --> " + golem2.getEatenStones()[i].getName() + ")"); //Il metodo shoot restituisce un intero,
+				System.out.println(players[1].getName() + "'s golem deals a " + golem2.shoot(defendingElementIndex, attackingElementIndex, golem1) + " lifepoints damage (" + golem2.getEatenStones()[i].getName() + " --> " + golem1.getEatenStones()[i].getName() + ")"); //ma esegue già la sottrazione dei lifepoints
 				System.out.println(players[0].getName() + "'s golem's remaining health: " + golem1.getHealth()); //Non va mostrato all'utente, serve solo a noi per controllo
 				System.out.println(players[1].getName() + "'s golem's remaining health: " + golem2.getHealth());
 				i++;
 			}
-			if(golem1.isDead())
+			if(golem1.isDead()) {
 				players[0].increaseDefeatedGolems();
-			if(golem2.isDead())
+				System.out.println(players[0].getName() + " has lost a golem!");
+			}
+			if(golem2.isDead()) {
 				players[1].increaseDefeatedGolems();
+				System.out.println(players[1].getName() + " has lost a golem!");
+			}
 			
 			System.out.println(players[0].getName() + " has " + (maxNumberOfGolems - players[0].getDefeatedGolems()) + " golem left");
 			System.out.println(players[1].getName() + " has " + (maxNumberOfGolems - players[1].getDefeatedGolems()) + " golem left");
@@ -230,9 +238,18 @@ public class Match {
 	public String proclaimWinner() {
 		if(players[0].isDefeated() && !players[1].isDefeated())
 			return players[1].getName();		
+		
 		else if(players[1].isDefeated() && !players[0].isDefeated())
 			return players[0].getName();		
-		else return "nobody! Both players have died in the same turn!";
+		
+		else {
+			StringBuffer message = new StringBuffer("nobody! ");
+			if(players[1].isDefeated() && players[0].isDefeated())
+				message.append("Both players have died in the same turn!");
+			else  message.append("There aren't enough stones left for another turn!");
+			
+			return message.toString();
+		}
 	}
 	
 	public boolean notEnoughStonesLeft() { //Se sono rimaste meno pietre di quelle necessarie per far evocare un Golem a ciascun giocatore, la partita si interrompe
@@ -243,5 +260,12 @@ public class Match {
 		if (players.length * counter < eatableStones)
 			return true;
 		else return false;
+	}
+	
+	private int findElementIndex(Element element) {
+		for(int i = 0; i < elements.length; i++)
+			if(elements[i] == element)
+				return i;
+		return -1;
 	}
 }

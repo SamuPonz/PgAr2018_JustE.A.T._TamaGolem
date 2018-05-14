@@ -5,22 +5,22 @@
  */
 public class Golem {
 
-	private static final int INITIAL_HEALTH = 10;  //valore arbitrario
+	public static final int INITIAL_HEALTH = 10;  //valore arbitrario
 	
 	private String name;
 	private int health = INITIAL_HEALTH;
 	private Stone[] eatenStones;
+	private Equilibrium equilibrium;
 	
-	public Golem(int eatableStones) {
+	public Golem(int eatableStones, Equilibrium equilibrium) {
 		this.setName(name);
 		eatenStones = new Stone[eatableStones];
+		this.equilibrium = equilibrium;
 	}
 	
-	public int shoot(int index, Golem otherGolem) { //Aggiungere qui la perdita di vita!!!!
-		Stone attackingStone = eatenStones[index];
-		Stone defendingStone = otherGolem.eatenStones[index];
+	public int shoot(int attackingStoneIndex, int defendingStoneIndex, Golem otherGolem) {
 		
-		int healthReduction = damageDealt(attackingStone, defendingStone);
+		int healthReduction = damageDealt(attackingStoneIndex, defendingStoneIndex);
 		otherGolem.health -= healthReduction;
 		
 		return healthReduction;
@@ -53,10 +53,16 @@ public class Golem {
 			eatenStones[i] = new Stone(kindOfStones[i]);	
 	}
 	
-	public int damageDealt(Stone attackingStone, Stone defendingStone) {
-		int damage;
-		damage = 3; //Associare alla classe Equilibrium per capire l'entità del danno
-		return damage;
+	private int damageDealt(int attackingIndex, int defendingIndex) {
+		int damage = 0;
+		equilibrium.printer(); //La stampa serve solo a noi per controllo, va tolta!
+		
+		int HypotheticalDamage = equilibrium.getElementsTable()[attackingIndex][defendingIndex];
+		
+		if(HypotheticalDamage > 0)
+			return HypotheticalDamage;
+		
+		else return damage;
 	}
 	
 }
