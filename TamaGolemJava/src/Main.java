@@ -11,9 +11,12 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 
- * This class only consists of the main method where the program is executed.
+ * Classe che contiene il metodo main
+ * 
+ * @author Just E.A.T.
  *
  */
+
 public class Main {
 
 	private static final String WELCOME_MESSAGE = "Welcome in our TamaGolem-battling platform! Tr\u1EE9ng \u1EA9n!\n";
@@ -26,8 +29,6 @@ public class Main {
 	private static final String INTRO1 = "\n\t\t\u00A9 2018\t\tTamaGolem";
 	private static final String INTRO2 = "\t\t\u00A9 1998-2018\tJUST E.A.T.";
 	private static final String INTRO3 = "\nGengar & Nidorino fighting in the grass";
-
-
 
 	private static final String OPTIONS_MENU_TITLE = "Please, choose the option you want to modify";
 	private static final String[] DIFFICULTY_LEVELS = { "- EASY MODE: 3, 4 or 5 elements", "- NORMAL MODE: 6, 7 or 8 elements", "- HARD MODE: 9 or 10 elements" };
@@ -157,6 +158,14 @@ public class Main {
 		} while(choice != 0);
 	}
 	
+	/**
+	 * 
+	 * Metodo che permette di scegliere la difficolta' di gioco
+	 * 
+	 * @return Ritrona un intero che corrisponde al numero di elementi e di conseguenza alla difficolta' di gioco
+	 * 
+	 */
+	
 	private static int selectDifficulty() {
 		System.out.println();
 		for(int i = 0; i < DIFFICULTY_LEVELS.length; i++)
@@ -166,6 +175,17 @@ public class Main {
 		return choosenDifficulty;
 	}
 
+	/**
+	 * 
+	 * Metodo che stampa a video l'introduzione del programma
+	 * 
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws LineUnavailableException
+	 * @throws UnsupportedAudioFileException
+	 * 
+	 */
+	
 	private static void intro() throws IOException, InterruptedException, LineUnavailableException, UnsupportedAudioFileException {
 		File soundTrackIntro = new File("soundtrackIntro.wav");
 		AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundTrackIntro);
@@ -187,6 +207,12 @@ public class Main {
 		System.out.println("\n\n");
 	}
 
+	/**
+	 * 
+	 * Metodo che stampa a video la richiesta di una nuova evocazione 
+	 * 
+	 */
+	
 	private static void  summonRequest() {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		try {
