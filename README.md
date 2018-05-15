@@ -1,6 +1,6 @@
 # TamaGolem :space_invader:
 
-*Tamagolem è un innovativo JRPG su riga di comando, l'ideale per distrarsi 2 minuti tra una lezione e l'altra ;)*
+*Tamagolem è un innovativo IRPG su riga di comando, l'ideale per distrarsi 2 minuti tra una lezione e l'altra ;)*
 
 **N.B.**
 * Il programma necessita della libreria *UniBSFpLib* per funzionare correttamente. La libreria è già stata importata nel progetto TamaGolem, ma si consiglia comunque un controllo prima di compilare il codice.
