@@ -1,5 +1,5 @@
 /**
- * Classe che rappresenta l'entita' "Elemento": e' costituita da un enum contentente tutti e dieci gli elementi esistenti nel mondo
+ * Classe Enum che rappresenta l'entita' Elemento: e' costituita da un enum contentente tutti e dieci gli elementi esistenti nel mondo
  * 
  * @author Just E.A.T.
  * 
@@ -20,7 +20,7 @@ public enum Element {
 	public final int value;
 	
 	/**
-	 * Costruttore di un oggetto di tipo "Elemento"
+	 * Costruttore di un oggetto di tipo Elemento
 	 * 
 	 * @param value L'indice che rappresenta l'elemento
 	 * 

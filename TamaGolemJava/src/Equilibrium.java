@@ -1,7 +1,8 @@
 import it.unibs.fp.mylib.NumeriCasuali;
 
 /**
- * Questa classe genera una tabella che regola l'equilibrio degli elementi
+ * Classe che genera una tabella che regola l'equilibrio degli elementi
+ * 
  * @author Just E.A.T.
  */
 public class Equilibrium {
@@ -12,8 +13,10 @@ public class Equilibrium {
 
     /**
      * Costruttore della classe
+     * 
      * @param elementsNumber a seconda del numero di elementi utilizzati nella partita verrà creata una tabella bilanciata più o meno grande
      * @param golemHealth serve per conoscere il danno massimo che un elemento può infliggere/ricevere
+     * 
      */
     public Equilibrium(int elementsNumber, int golemHealth) {
         this.elementsNumber = elementsNumber;
@@ -23,8 +26,11 @@ public class Equilibrium {
     }
 
     /**
+     * 
      * Metodo che crea la tabella rispettando il principio fondamentale dell'equilibrio
+     * 
      */
+    
     private void init(){
         int sum;
         int value = 0;
@@ -67,10 +73,14 @@ public class Equilibrium {
     }
 
     /**
+     * 
      * Metodo per il calcolo della somma dei danni subiti e di quelli effettuati di un singolo elemento
+     * 
      * @param row indica la riga di cui calcolare la somma
      * @return la somma dei danni subiti e di quelli effettuati di un singolo elemento
+     * 
      */
+    
     private int calculateSum(int row) {
         int sum = 0;
         for (int i = 0; i < row; i++){
@@ -80,8 +90,11 @@ public class Equilibrium {
     }
 
     /**
+     * 
      * Metodo per la stampa a video della tabella completa
+     * 
      */
+    
     public void printer() {
         for (int i = 0; i < elementsNumber; i++) {
             for (int j = 0; j < elementsNumber; j++) {
@@ -90,6 +103,14 @@ public class Equilibrium {
             System.out.println();
         }
     }
+    
+    /**
+     * 
+     * Metodo che restituisce la tabella degli elementi
+     * 
+     * @return Ritorna la tabella degli elementi
+     * 
+     */
     
     public int[][] getElementsTable() {
     	return elementsTable;

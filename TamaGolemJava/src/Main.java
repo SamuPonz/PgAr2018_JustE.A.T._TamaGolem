@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-	private static final String WELCOME_MESSAGE = "Welcome in our TamaGolem-battling platform! Tr\u1EE9ng \u1EA9n!\n";
+	private static final String WELCOME_MESSAGE = "Welcome in our TamaGolem-battling platform! \u0111\u00E1 t\u1ED1t \n";
 	private static final String MENU_TITLE = "MAIN MENU'";
 	private static final String[] CHOICES = { "Start a new Battle", "Options" };
 	private static final String END = "Bye, hope to see you again...";
@@ -103,6 +105,9 @@ public class Main {
 					match.clash(); //Lo scontro vero e proprio, comprendente le varie evocazioni
 					
 					System.out.println(String.format(END_MATCH_MESSAGE, match.proclaimWinner()));
+					System.out.println(Arrays.asList(match.getElements()));
+					System.out.print("\n");
+					match.getEquilibrium().printer();
 					if (soundEffects){
 						audioClip.close();
 						audioStream.close();
@@ -203,10 +208,10 @@ public class Main {
 		System.out.println(INTRO3);
 		TimeUnit.SECONDS.sleep(12);
         golemPrinter();
+		TimeUnit.SECONDS.sleep(3);
 		enterRequest();
 		audioClip.close();
 		audioStream.close();
-		System.out.flush();
 	}
 
 	/**

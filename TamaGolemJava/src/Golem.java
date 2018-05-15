@@ -1,6 +1,6 @@
 /**
  * 
- * Classe che rappresenta il prototipo di un oggetto di tipo golem
+ * Classe che rappresenta il prototipo di un oggetto di tipo Golem
  * 
  * @author Just E.A.T.
  *
@@ -135,5 +135,15 @@ public class Golem {
 			if(eatenStones[i].getName().equals(other.getEatenStones()[i].getName()))
 					return true;
 		return false;
+	}
+	
+	/**
+	 * 
+	 * Metodo che uccide un golem
+	 * 
+	 */
+	
+	public void kill() {
+		health = 0;
 	}
 }

@@ -7,7 +7,9 @@ import it.unibs.fp.mylib.MyMenu;
 
 /**
  * 
- * Classe che rappresenta il prototipo di un oggetto di tipo "Partita". Rappresenta la singola partita tra due giocatori.
+ * <p>Classe che rappresenta il prototipo di un oggetto di tipo Partita</p> 
+ * 
+ * Rappresenta la singola partita tra due giocatori
  * L'esistenza di questa classe permette di istanziare piu' partite senza dover terminare il programma di volta in volta
  * 
  * @author Just E.A.T.
@@ -46,7 +48,7 @@ public class Match {
 	private int stonesPerElement;
 	
 	/**
-	 * Costruttore di oggetti di tipo "Partita"
+	 * Costruttore di oggetti di tipo Partita
 	 * 
 	 * @param name1 Il nome del primo giocatore
 	 * @param name2 Il nome del secondo giocatore
@@ -228,12 +230,13 @@ public class Match {
 		int choice;
 		
 		for(int i = 0; i < eatableStones; i++) {
-			
+			commonStockPrint();
 			boolean error = false;
 			do {
 				choice = summonMenu.chooseWithNoExitOption();
 				if(commonStock.get(choice - 1).isEmpty()) {
 					System.out.println(NO_MORE_STONES_LEFT);
+					commonStockPrint();
 					error = true;
 				}
 				else error = false;
@@ -272,24 +275,14 @@ public class Match {
 	 */
 	public void clash() {
 		int turn = 1;
-		int newEvocation = 2;
 		
 		summonRequest();
 		
-		commonStockPrint();
 		summonSequence(0, turn);
-		commonStockPrint();
 		summonSequence(1, turn);
 		
 		while(!players[0].isDefeated() && !players[1].isDefeated() &&  turn <= (maxNumberOfGolems * 2 - 1) && !notEnoughStonesLeft()) {
-			if(newEvocation == 0) {
-				commonStockPrint();
-				summonSequence(0, turn);
-			}
-			if(newEvocation == 1) {
-				commonStockPrint();
-				summonSequence(1, turn);
-			}
+			
 			
 			Golem golem1 = players[0].getGolems().get(players[0].getDefeatedGolems());
 			Golem golem2 = players[1].getGolems().get(players[1].getDefeatedGolems());
@@ -313,31 +306,30 @@ public class Match {
 				
 				if(golem1Damage == golem2Damage)
 					nullInteractionCounter++;
+				else
+					nullInteractionCounter = 0;
 				if(nullInteractionCounter == eatableStones) {
 					System.out.println(NULL_INTERACTION_ERROR);
-					players[0].increaseDefeatedGolems();
-					players[1].increaseDefeatedGolems();
-					summonRequest();
-					commonStockPrint();
-					summonSequence(0, turn);
-					commonStockPrint();
-					summonSequence(1, turn);
-					System.out.println(players[0].getName() + " has lost a golem!");
-					System.out.println(players[1].getName() + " has lost a golem!");
+					golem1.kill();
+					golem2.kill();
 					break;
 				}
 			}
 			if(golem1.isDead()) {
 				players[0].increaseDefeatedGolems();
 				System.out.println(players[0].getName() + " has lost a golem!");
-				newEvocation = 0;
-				summonRequest();
+				if(!players[0].isDefeated()) {
+					summonRequest();
+					summonSequence(0, turn);
+				}
 			}
 			if(golem2.isDead()) {
 				players[1].increaseDefeatedGolems();
 				System.out.println(players[1].getName() + " has lost a golem!");
-				newEvocation = 1;
-				summonRequest();
+				if(!players[1].isDefeated()) {
+					summonRequest();
+					summonSequence(1, turn);
+				}
 			}
 			
 			System.out.println(players[0].getName() + " has " + (maxNumberOfGolems - players[0].getDefeatedGolems()) + " golem left");
@@ -377,6 +369,11 @@ public class Match {
 		}
 	}
 	
+	
+	public Equilibrium getEquilibrium() {
+		return equilibrium;
+	}
+
 	/**
 	 * Metodo che controlla se sono rimaste meno pietre di quelle necessarie per far evocare un Golem a ciascun giocatore.
 	 * In tal caso la partita si interrompe

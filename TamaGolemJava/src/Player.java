@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * Classe che rappresenta il prototipo di un oggetto di tipo giocatore
+ * Classe che rappresenta il prototipo di un oggetto di tipo Giocatore
  * 
  * @author Just E.A.T.
  *
