@@ -207,7 +207,7 @@ public class Main {
 		TimeUnit.SECONDS.sleep(5);
 		System.out.println(INTRO3);
 		TimeUnit.SECONDS.sleep(12);
-        golemPrinter();
+        	golemPrinter();
 		TimeUnit.SECONDS.sleep(3);
 		enterRequest();
 		audioClip.close();
